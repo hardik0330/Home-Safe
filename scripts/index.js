@@ -5,11 +5,17 @@ const loggedInLinks = document.querySelectorAll('.logged-in');
 const UserName = document.querySelector('.user-name');
 const UserNameMobile = document.querySelector('.user-name-mobile');
 const sidenav = document.querySelector('.mobile-links');
+const MostRecent = document.querySelector('.most_recent');
+var first_name;
+var last_name;
 
 //setup UI elements
 const setupUI = (user) => {
   if(user){
     db.collection('Users').doc(user.uid).get().then(doc => {
+      // console.log(myTimestamp);
+      first_name = doc.data().FirstName;
+      last_name = doc.data().LastName;
       //account details modal entry
       const html =`
         <div> Hi, ${doc.data().FirstName} ${doc.data().LastName}</div>
@@ -18,7 +24,15 @@ const setupUI = (user) => {
       UserName.innerHTML = html;
       UserNameMobile.innerHTML = html_2;
     });
-    
+    db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
+      MostRecent.innerHTML = `
+            <div style = "padding: 40px;">
+              <div class="card-panel grey lighten-3 z-depth-1">
+              <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+              </div>
+            </div>  
+            `;
+    });
     //removing logged-out elements
     // document.getElementById("admin").style.display="block";
     loggedInLinks.forEach(item => item.style.display = 'block');
@@ -70,6 +84,28 @@ const DisplayState = (data) => {
           Lock : false
         }).then(() => {
           console.log("lock state changed to open");
+          var myTimestamp = firebase.firestore.Timestamp.fromDate(new Date());
+          db.collection('Log').add({
+            FirstName : first_name,
+            LastName : last_name,
+            time : myTimestamp,
+            action : 'opened'
+          });
+          db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').update({
+            FirstName : first_name,
+            LastName : last_name,
+            time : myTimestamp,
+            action : 'opened'
+          });
+          db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
+            MostRecent.innerHTML = `
+            <div style = "padding: 40px;">
+              <div class="card-panel grey lighten-3 z-depth-1">
+              <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+              </div>
+            </div>  
+            `;
+          });
           // location.reload();
         });
       });
@@ -82,6 +118,28 @@ const DisplayState = (data) => {
         }).then(() => {
           console.log("lock state changed to closed");
           // location.reload();
+          var myTimestamp = firebase.firestore.Timestamp.fromDate(new Date());
+          db.collection('Log').add({
+            FirstName : first_name,
+            LastName : last_name,
+            time : myTimestamp,
+            action : 'closed'
+          });
+          db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').update({
+            FirstName : first_name,
+            LastName : last_name,
+            time : myTimestamp,
+            action : 'opened'
+          });
+          db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
+            MostRecent.innerHTML = `
+            <div style = "padding: 40px;">
+              <div class="card-panel grey lighten-3 z-depth-1">
+              <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+              </div>
+            </div>  
+            `;
+          });
         });
       });
       // location.reload();
@@ -99,6 +157,7 @@ const DisplayState = (data) => {
     </a>
     </div>
     `;
+    MostRecent.innerHTML=null;
   }
 };
 
