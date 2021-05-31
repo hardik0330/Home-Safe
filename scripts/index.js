@@ -26,11 +26,13 @@ const setupUI = (user) => {
     });
     db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
       MostRecent.innerHTML = `
-            <div style = "padding: 40px;">
-              <div class="card-panel grey lighten-3 z-depth-1">
+          <div class = "container">
+            <div style = "padding: 20px;">
+              <div class="card-panel grey lighten-3 z-depth-2">
               <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
               </div>
-            </div>  
+            </div>
+          </div>  
             `;
     });
     //removing logged-out elements
@@ -99,9 +101,11 @@ const DisplayState = (data) => {
           });
           db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
             MostRecent.innerHTML = `
-            <div style = "padding: 40px;">
-              <div class="card-panel grey lighten-3 z-depth-1">
-              <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+            <div class = "container">
+              <div style = "padding: 20px;">
+                <div class="card-panel grey lighten-3 z-depth-2">
+                <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+                </div>
               </div>
             </div>  
             `;
@@ -133,9 +137,11 @@ const DisplayState = (data) => {
           });
           db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
             MostRecent.innerHTML = `
-            <div style = "padding: 40px;">
-              <div class="card-panel grey lighten-3 z-depth-1">
-              <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+            <div class = "container">
+              <div style = "padding: 20px;">
+                <div class="card-panel grey lighten-3 z-depth-2">
+                <div class = "center-align">${doc.data().FirstName} ${doc.data().LastName} ${doc.data().action} the safe on <div class="grey-text">${doc.data().time.toDate()}</div></div>  
+                </div>
               </div>
             </div>  
             `;
