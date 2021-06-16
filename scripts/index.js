@@ -35,6 +35,7 @@ const setupUI = (user) => {
           </div>  
             `;
     });
+
     //removing logged-out elements
     // document.getElementById("admin").style.display="block";
     loggedInLinks.forEach(item => item.style.display = 'block');
@@ -133,7 +134,7 @@ const DisplayState = (data) => {
             FirstName : first_name,
             LastName : last_name,
             time : myTimestamp,
-            action : 'opened'
+            action : 'closed'
           });
           db.collection('MostRecent').doc('nebdMgZaPuwXaXVRF6Xn').get().then(doc => {
             MostRecent.innerHTML = `
